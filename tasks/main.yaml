@@ -1,0 +1,24 @@
+---
+
+- name: Enable rhv-h repos 
+  rhsm_repository:
+    name: "{{ item }}"
+    state: enabled
+  with_items:
+    - rhel-7-server-rpms
+    - rhel-7-server-ansible-2-rpms
+    - rhel-7-server-rhv-4-mgmt-agent-rpms
+  tags: rhv-h
+
+- name: Install cockpit-ovirt-dashboard package
+  yum:
+    name: cockpit-ovirt-dashboard
+    state: installed
+  tags: rhv-h
+
+- name: Start and Enable cockpit
+  service:
+    name: cockpit
+    state: started
+    enabled: yes
+  tags: rhv-h
